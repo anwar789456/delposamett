@@ -10,17 +10,15 @@
   padding: 2rem;
 }
 
-
-
-
-
 .productCard {
   display: flex;
   flex-direction: column;
   padding: 10px;
   width: 100%;
-  cursor: pointer;
   border: 1px solid rgba($color: #aaaaaa, $alpha: 0.6);
+
+  
+  
 }
 
 .imageWrapper {
@@ -38,6 +36,12 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: filter .3s ease-in-out;
+  &:hover{
+    transition: filter .3s ease-in-out;
+    filter: brightness(0.8);
+  }
+  
 }
 
 .hide {
@@ -56,7 +60,6 @@
   justify-content: center;
   align-items: center;
 }
-
 
 .title {
   font-size: 1.1rem;
@@ -124,46 +127,131 @@
   overflow: hidden;
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 .hyperPoint {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background-color: transparent; /* Make the center transparent */
   position: absolute;
-  transform: translate(-50%, -50%);
-  cursor: pointer;
-  border: 1px solid white; /* Outer circle border */
-  box-shadow: 0 0 0 1px transparent, /* Create transparent gaps */
-              0 0 0 1px white,       /* Outer visible part of the "target" */
-              0 0 0 1px transparent; /* Transparent space around the outer border */
-  
-  transition: transform 0.3s ease-in-out; /* Smooth spin animation */
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background-color: black;
+  border: 4px solid white;
+  box-shadow: 0px 0px 1px rgba(255, 255, 255, 0.7);
+  opacity: 0;
+  animation: flicker 5s infinite;
+  transform: scale(0);
 
-
-  /* Add a pseudo-element for the inner circle */
   &::before {
     content: '';
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 6px;
-    height: 6px;
+    width: 0;
+    height: 0;
     border-radius: 50%;
-    background-color: white; /* Inner circle */
-    transform: translate(-50%, -50%);
+    background-color: rgba(255, 255, 255, 0.3);
+    transform: translate(-50%, -50%) scale(0);
+    animation: wave 5s infinite;
+    pointer-events: none;
   }
 }
+
+.clicked {
+  opacity: 1;               /* Ensure it's visible */
+  transform: scale(1);       /* Keep it at the visible size */
+  animation: none;           /* Stop flicker animation */
+
+  &::before {
+    animation: none;         /* Stop wave animation */
+  }
+}
+
+@keyframes flicker {
+  0% {
+    opacity: 0;
+    transform: scale(0);
+  }
+  10% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+  20% {
+    transform: scale(1);
+  }
+  80% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  90% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0);
+  }
+}
+
+@keyframes wave {
+  0% {
+    width: 0;
+    height: 0;
+    opacity: 0.7;
+    transform: translate(-50%, -50%) scale(0);
+  }
+  10% {
+    opacity: 1;
+  }
+  50% {
+    width: 50px;
+    height: 60px;
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1.2);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1.4);
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 .tooltip {
   position: absolute;
   background-color: white;
   color: black;
-  padding: 10px;
-  border-radius: 5px;
+  padding-top: 1px;
+  padding-left: 1px;
+  border-radius: 3px;
   border: 1px solid #000; // Dark border for the comic effect
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  z-index: 999999;
-  width: 200px;
+  width: 230px;
   height: 100px;
   display: flex;
   flex-direction: row;
@@ -172,8 +260,7 @@
 }
 
 .tooltipImage {
-  width: 75px; // Adjust size as needed
-  height: 75px;
+  width: 95px;
   flex-shrink: 0;
 }
 
@@ -181,6 +268,17 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+}
+
+.closeButton {
+  position: absolute;
+  top: -7px;
+  right: 2px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: black;
 }
 
 .productName {
@@ -203,16 +301,4 @@
   font-style: normal;
   text-transform: uppercase;
   font-weight: 100;
-}
-
-// Adding the chat bubble arrow effect
-.tooltip::after {
-  content: '';
-  position: absolute;
-  bottom: 100%; /* Position it above the tooltip */
-  left: 50%;
-  margin-left: -5px;
-  border-width: 5px;
-  border-style: solid;
-  border-color: transparent transparent white transparent; /* Arrow pointing down */
 }

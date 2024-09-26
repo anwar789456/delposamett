@@ -129,8 +129,7 @@ const SearchBar = ({ isOpen, onClose, products }) => {
                             {filteredProducts.length > 0 ? (  
                                 filteredProducts.map((product, index) => (
                                     <div key={index} className={styles.productItem}>
-                                        <Link href={`/ProductPage/${product.idProd}`}
-                                            onClick={() => handleProductClick(product.idProd)}>
+                                        <Link href={`/ProductPage/${product.idProd}`}>
                                             <ProductCard
                                                 image={product.images[0].img}
                                                 title={product.nom}
@@ -139,6 +138,7 @@ const SearchBar = ({ isOpen, onClose, products }) => {
                                                 priceMin={product.minPrice}
                                                 priceMax={product.maxPrice}
                                                 category={product.categorie}
+                                                idProd = {product.idProd}
                                             />
                                         </Link>
                                     </div>
